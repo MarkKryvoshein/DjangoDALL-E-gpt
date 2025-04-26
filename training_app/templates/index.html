@@ -1,10 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Chat_Dall-E_Gpt</title>
 </head>
 <body>
+<div>
+    <nav>
 
+    </nav>
+</div>
+<div class="form-container">
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="text" name="name" id="username" placeholder="Ім'я" required/>
+    <input type="text" name="surname" id="surname" placeholder="Прізвище" required/>
+    <input type="email" name="email" id="email" placeholder="Електронна пошта" required/>
+    <input type="password" name="password" id="password" placeholder="Пароль" required/>
+
+    <button type="submit">Save</button>
+</form>
+</div>
 </body>
 </html>
