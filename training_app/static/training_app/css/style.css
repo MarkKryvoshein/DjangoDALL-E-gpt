@@ -1,0 +1,8 @@
+.Registration_rows{
+  width: 300px; /* Встановіть потрібну ширину */
+  margin: 0 auto; /* Центрує блок */
+}
+.Registration input {
+  margin-bottom: 20px; /* Відступ між інпутами */
+  font-size: 14px; /* Розмір шрифта інпутів */
+}
