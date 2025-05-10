@@ -1,13 +1,27 @@
-from django.shortcuts import render
+import os
+
+from django.shortcuts import render, redirect
 
 from training_app.forms import PromptForm
 
+from template.settings import API_KEY
+
+from training_app.forms import CustomUserCreationForm as registrationForm
+
 import openai
-openai.api_key=""
-client = openai.OpenAI()
+
+client = openai.OpenAI(api_key=API_KEY)
 
 
-def registration_form(request):
+def mainPage(request):
+    # if request.user.is_authenticated:
+    #     QueryHistory.object.created(
+    #         user = request.user,
+    #         query=query,
+    #         response_text=None,
+    #         response_image = None,
+    #
+    #     )
     response_text = None
     response_image = None
 
@@ -25,7 +39,13 @@ def registration_form(request):
                 ]
             )
 
-            response_text = completion.choices[0].message
+            response_text = completion.choices[0].message.content
+            image_result = client.images.generate(
+                model="dall-e-3",
+                prompt=prompt
+            )
+
+            response_image = image_result.data[0].url
     else:
         form = PromptForm()
     return render(request, 'index.html', {
@@ -34,4 +54,18 @@ def registration_form(request):
         "form": form
     })
 
+
+def signUp(request):
+
+    if request.method == "POST":
+        form = registrationForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('')
+        return render(request, 'registration/signup.html', {'form': form})
+    else:
+        form = registrationForm()
+        return render(request, 'registration/signup.html', {'form': form})
 # Create your views here.
+
+
