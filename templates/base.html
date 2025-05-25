@@ -1,30 +1,3 @@
-<<<<<<< HEAD:templates/base.html
-{% extends 'base.html' %}
-{% block content %}
-{% load static %}
-
-<div class="form-container">
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save</button>
-</form>
-</div>
-
-
-{% if response_text %}
-<div>
-    <h2 class="Answer-h2">Відповідь:</h2>
-    <p class="p-gpt-answer">{{ response_text }}</p>
-</div>
-  {% endif %}
-
-  {% if response_image %}
-    <h2>Зображення:</h2>
-    <img src="{{ response_image }}" alt="AI Зображення" width="256">
-  {% endif %}
-{% endblock %}
-=======
 {% load static %}
 
 <!DOCTYPE html>
@@ -49,4 +22,3 @@ Hello, {{ user.username }} | <a href="{% url 'logout' %}">Log out</a>
 {% endblock %}
 </body>
 </html>
->>>>>>> feature/adding_bulma:training_app/templates/base.html

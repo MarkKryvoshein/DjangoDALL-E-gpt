@@ -79,11 +79,4 @@ def logOut(request):
         return render(request, 'registration/logout.html', {"form": registrationForm()})
 
 
-
-def registration_form(request):
-    return render(request, 'index.html')
-
 # Create your views here.
-
-
-
