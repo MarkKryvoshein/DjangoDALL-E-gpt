@@ -2,11 +2,15 @@ import os
 
 from django.shortcuts import render, redirect
 
+from django.contrib.auth import logout
+
 from training_app.forms import PromptForm
 
 from template.settings import API_KEY
 
 from training_app.forms import CustomUserCreationForm as registrationForm
+
+from .models import QueryHistory
 
 import openai
 
@@ -14,14 +18,6 @@ client = openai.OpenAI(api_key=API_KEY)
 
 
 def mainPage(request):
-    # if request.user.is_authenticated:
-    #     QueryHistory.object.created(
-    #         user = request.user,
-    #         query=query,
-    #         response_text=None,
-    #         response_image = None,
-    #
-    #     )
     response_text = None
     response_image = None
 
@@ -46,6 +42,13 @@ def mainPage(request):
             )
 
             response_image = image_result.data[0].url
+            if request.user.is_authenticated:
+                QueryHistory.objects.create(
+                    user=request.user,
+                    query=prompt,
+                    response_text=response_text,
+                    response_image=response_image
+                )
     else:
         form = PromptForm()
     return render(request, 'index.html', {
@@ -56,16 +59,27 @@ def mainPage(request):
 
 
 def signUp(request):
-
     if request.method == "POST":
         form = registrationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('')
+            return redirect('..')
         return render(request, 'registration/signup.html', {'form': form})
     else:
         form = registrationForm()
         return render(request, 'registration/signup.html', {'form': form})
+
+
+def logOut(request):
+    if request.method == "POST":
+        logout(request)
+        return redirect('..')
+    else:
+        # При GET запиті, можеш або показати підтвердження, або просто редірект
+        return render(request, 'registration/logout.html', {"form": registrationForm()})
+
+
 # Create your views here.
+
 
 
