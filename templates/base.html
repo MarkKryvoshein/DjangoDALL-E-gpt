@@ -1,10 +1,52 @@
+<<<<<<< HEAD:templates/base.html
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="form-container">
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+</div>
+
+
+{% if response_text %}
+<div>
+    <h2 class="Answer-h2">Відповідь:</h2>
+    <p class="p-gpt-answer">{{ response_text }}</p>
+</div>
+  {% endif %}
+
+  {% if response_image %}
+    <h2>Зображення:</h2>
+    <img src="{{ response_image }}" alt="AI Зображення" width="256">
+  {% endif %}
+{% endblock %}
+=======
+{% load static %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Chat_Dall-E_Gpt</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="{% static 'training_app/css/style.css' %}">
 </head>
 <body>
 
+{% if user.is_authenticated %}
+Hello, {{ user.username }} | <a href="{% url 'logout' %}">Log out</a>
+{% else %}
+<a href="{% url 'login' %}">log in</a> | <a href="{% url 'signup' %}">sign up</a>
+{% endif %}
+<hr>
+
+{% block content %}
+
+{% endblock %}
 </body>
 </html>
+>>>>>>> feature/adding_bulma:training_app/templates/base.html
